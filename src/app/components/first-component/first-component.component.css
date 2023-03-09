@@ -1,3 +1,16 @@
+h1 {
+    color: green;
+}
 h2 {
     color: red;
+}
+h3 {
+    color: cornflowerblue;
+}
+h4 {
+    background-color: black;
+    color: yellow;
+}
+p {
+    color: blueviolet;
 }

@@ -31,7 +31,7 @@
 > *Segundo a documentação do Angular, o componente é o principal bloco de construção para aplicativos, e é composto por um template, um estilo e uma classe. É no template que encontraremos toda a estrutura HTML, a árvore DOM do componente. Já o estilo é onde será feita a estilização, e a classe onde é definido o comportamento e a lógica feita em Typescript.* [*(Alura)*](https://www.alura.com.br/artigos/angular-como-funciona-um-componente)
 ### **Com CLI** 
 - **ng generate component <nome_do_componente>** - cria o componente avulso, sem perdido no projeto
-- **ng generate component components/<nome_do_componente>** - cria o componente dentro uma um diretório chamado **components**. Ideal usar este
+- **ng generate component components/<nome_do_componente>** - cria o componente dentro uma um diretório chamado **components**. Ideal usar este:
 > ` ng generate component components/first-component`
 - independente de qual dos dois utilizar, ele cria 4 arquivos e atualiza um:
     - cria um arquivo html
@@ -50,4 +50,39 @@
 
 ### **Para importar o component**
 - abrir o arquivo html desejado
-- alocar uma tag html com o nome do selecto do componente, sempre fechando a tag 
+- alocar uma tag html com o nome do selector do componente, sempre fechando a tag 
+
+## **Aula 05 - Dados no template**
+### **O que é a interpolação de dados?** 
+> *A interpolação de texto permite incorporar valores dinâmicos nos modelos HTML. Com a interpolação, pode alterar dinamicamente o que aparece em uma visualização do aplicativo, como a exibição de uma saudação personalizada que inclui o nome do usuário.* [*(Studocu - Angular - Data Binding)*](https://www.studocu.com/pt-br/document/centro-universitario-eniac/framework-angular/livro-banco-de-framework-angular-part5/16371183)
+### **Interpolação de dados** 
+- recurso que ensina a trabalhar com os componentes do Angular
+- criaremos variáveis no arquivo .ts, dentro da classe
+- essas variáveis são propriedades da class
+- teremos acesso a todos esses dados no arquivo .html, o template
+- a impressão é feita através de `{{ dado }}`
+### **Criando a interpolação** 
+1º - No arquivo *__`.component.ts`__* do componente, criar a variável/propriedade dentro do escopo da classe do componente. Também podemos usar dados mais complexos, como listas, arrays ou mesmo objetos.
+```
+export class FirstComponentComponent {
+  name: string = "Maleus";
+  age: number = 30;
+  job = 'Rapaz do computador!'
+  hobbies = ["Correr", "Estudar", "Dormir"];
+  car = {
+    name: "Polus",
+    year: 2077,
+  };
+}
+```
+2º - No arquivo *__`.component.html`__* do componente, adicionar dentro de uma tag html o nome da variável/propriedade criada no arquivo *__`.component.ts`__* do componente.
+```
+<h1>Nome: {{ name }}</h1>
+<h3>Idade: {{ age }}</h3>
+<h4>Profissão: {{ job }}</h4>
+<p>Hobbie que mais gosta: {{ hobbies[2] }}</p>
+<h2>Nome do carro: {{ car.name }}</h2>
+<h3>Ano do carro: {{ car.year }}</h3>
+```
+- O que é passado para a interpolação torna-se uma string
+- Geralmente, esses dados de interpolação são extraídos de uma tabela de um Banco de Dados, sendo assim, é mais que necessário usar interpolação, pois isso permitirá que os dados recuperados sejam atualizados na página dinamicamente
