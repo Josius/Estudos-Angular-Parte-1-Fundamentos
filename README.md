@@ -1,5 +1,6 @@
 # **Estudos Angular**
 ## **Fonte de Estudos: [Hora de Codar](https://www.youtube.com/playlist?list=PLnDvRpP8Bnex2GQEN0768_AxZg_RaIGmw)**
+
 ## **Aula 03 - Estrutura do angular**
 ### **Após um ng new:** 
 - nome modules -  dependências do projeto
@@ -8,6 +9,7 @@
         - app.component.html - arquivo de template, logo, o que adicionarmos neste arquivo será adicionado na página do aplicativo
         - app.component.spec.ts - arquivo de testes do componente
         - app.component.ts - arquivo de configuração do componente, além de armazenar o código de lógica
+        - app.module.ts - arquivo central de configuração da aplicação; funciona como um mapeador de importação de componentes
     - assets - diretório onde ficam as imagens estáticas
     - enviroments - diretório onde ficam os ambientes que o angular rodará (ambiente de desenvolvimento, de produção)
     - index.html - arquivo principal de acesso ao usuário
@@ -23,3 +25,29 @@
 
 ### **Após um ng serve:** 
 - Inicia a aplicação
+
+## **Aula 04 - Criando um componente**
+### **O que é um componente?** 
+> *Segundo a documentação do Angular, o componente é o principal bloco de construção para aplicativos, e é composto por um template, um estilo e uma classe. É no template que encontraremos toda a estrutura HTML, a árvore DOM do componente. Já o estilo é onde será feita a estilização, e a classe onde é definido o comportamento e a lógica feita em Typescript.* [*(Alura)*](https://www.alura.com.br/artigos/angular-como-funciona-um-componente)
+### **Com CLI** 
+- **ng generate component <nome_do_componente>** - cria o componente avulso, sem perdido no projeto
+- **ng generate component components/<nome_do_componente>** - cria o componente dentro uma um diretório chamado **components**. Ideal usar este
+> ` ng generate component components/first-component`
+- independente de qual dos dois utilizar, ele cria 4 arquivos e atualiza um:
+    - cria um arquivo html
+    - cria um arquivo de testes
+    - cria um arquivo typescript
+    - cria um arquivo e um css
+    - atualiza arquivo app.module.ts
+- todos arquivos necessários são criados no projeto
+- p/ importar o componente basta utilizar o seu **selector** em um HTML de outro componente
+
+### **No arquivo <nome_do_componente>.component.ts**
+- Há um decorator chamado *@Component*, e dentro dele:
+    - selector: nome do componente para usar no arquivo html. O nome do componente sempre inicia com app
+    - templateUrl: caminho para encontrar o componente
+    - styleUrls: caminho para encontrar a folha de estilo do componente; recebe um array, logo, é possível alocar várias folhas de estilo;este arquivo reflete somente sobre o componente; 
+
+### **Para importar o component**
+- abrir o arquivo html desejado
+- alocar uma tag html com o nome do selecto do componente, sempre fechando a tag 
