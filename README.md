@@ -86,3 +86,9 @@ export class FirstComponentComponent {
 ```
 - O que é passado para a interpolação torna-se uma string
 - Geralmente, esses dados de interpolação são extraídos de uma tabela de um Banco de Dados, sendo assim, é mais que necessário usar interpolação, pois isso permitirá que os dados recuperados sejam atualizados na página dinamicamente
+
+## **Aula 06 - CSS no Angular**
+### **CSS** 
+Duas formas de estilizar com CSS em Angular:
+- **Global** - usar arquivo styles.css que se encontra no diretório src
+- **Scoped** - estilizando a nível de componente, um arquivo *nome-componente.css* é criado quando usamos o generate e ele tem escopo somente naquele componente
