@@ -92,3 +92,83 @@ export class FirstComponentComponent {
 Duas formas de estilizar com CSS em Angular:
 - **Global** - usar arquivo styles.css que se encontra no diretório src
 - **Scoped** - estilizando a nível de componente, um arquivo *nome-componente.css* é criado quando usamos o generate e ele tem escopo somente naquele componente
+
+## **Aula 07 - Compartilhamento de dados**
+### **Definição** 
+- podemos compartilhar dados hierarquicamente do componente pai ao componente filho
+- disponibilizamos nas chamada do componente o nome do dado que será recebido com a seguinte sintaxe: **[dado]**
+- no código .ts do componente filho utilizamos o decorator **@Input**, o qual entrega os dados para o template
+### **Explicação** 
+1º Criamos o componente com:
+> `ng generate component <diretório-que-armazena-os-compentes>/<nome-do-componente>`
+
+Exemplo:
+~~~
+ng generate component components/parent-data
+~~~
+
+2º No arquivo .ts do componente criado adicionamos *Input* nos imports para chamar esse módulo e criamos uma propriedade:
+> `@Input() nome-da-propriedade: tipo-da-propriedade = inicializador-da-propriedade;`
+
+no caso do exemplo, em *__parent-data.component.ts__*:
+~~~
+import { Component, Input } from '@angular/core';
+~~~
+e no mesmpo arquivo .ts:
+~~~
+export class ParentDataComponent {
+
+  @Input() name: string = '';
+}
+~~~
+
+No caso do vídeo, o app.component.html é o pai, então inserimos o componente criado no app.component.ts, mas o pai poderia ser qualquer outro componente, então:
+
+3º no *__app.component.html__* adicionamos o componente criado com a sua tag:
+> `<componente-criado></componente-criado>`
+
+no caso do exemplo:
+~~~
+<app-parent-data></app-parent-data>
+~~~
+
+4º Agora criaremos os dados no componente pai, então em *__app.component.ts__* conterá os dados que serão compartilhados, logo, só precisamos criar uma propriedade, no caso criamos *userName*:
+
+~~~ng2
+export class AppComponent {
+
+  userName = 'Joloaquim';
+  title = 'Estudos-Angular';
+}
+~~~
+
+5º Na declaração de HTML iremos fazer a exportação desse dado, então em *__app.component.html__* adicionamos dentro da tag do componente criado o seguinte:
+> `<componente-criado [nome-da-propriedade-compartilhada-no-componente-criado]="nome-da-propriedade-em-componente.component.ts"></componente-criado>`
+
+> nome-da-propriedade-compartilhada-no-componente-criado -> 2º passo
+
+> nome-da-propriedade-em-componente.component.ts -> 4º passo
+
+no caso do exemplo:
+~~~
+<app-parent-data [name]="userName"></app-parent-data>
+~~~
+
+6º Por fim, adicionamos em *__componente-criado.component.html__* dentro de uma tag o seguinte: 
+> `<tag> NOME DA PROPRIEDADE COMPARTILHA NO COMPONENTE CRIADO: {{ nome-da-propriedade-compartilhada-no-componente-criado }}</tag>`
+
+> nome-da-propriedade-compartilhada-no-componente-criado -> 2º passo
+
+no caso do exemplo, em *__parent-data.component.html__*:
+~~~
+<app-parent-data [name]="userName"></app-parent-data>
+~~~
+
+**OBS:** para iniciar qualquer propriedade tipada, pode usar *__!__*, por exemplo:
+~~~
+@Input() userData!: {
+    email: string,
+    role: string
+  };
+~~~
+o *_!_* após *userData* inicializa o objeto. Essa é uma síntaxe do TypeScript para iniciar uma propriedade/variável/dado.
