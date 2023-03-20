@@ -172,3 +172,52 @@ no caso do exemplo, em *__parent-data.component.html__*:
   };
 ~~~
 o *_!_* após *userData* inicializa o objeto. Essa é uma síntaxe do TypeScript para iniciar uma propriedade/variável/dado.
+
+## **Aula 08 - Diretivas em Angular**
+### **Definição** 
+- aplicacão estilos a um elemento
+- **síntaxe:** começam sempre com **ng**, o nome fica como: **ngNomeDaFunçãoDaDiretiva**
+
+1º Criamos um componente para a diretiva:
+> `ng generate component components/directives`
+
+2º Importamos o componente para a classe principal (no caso, app.component.html)
+
+3º **In line** - Esta é uma forma de usar a diretiva, em algum arquivo.html que precise receber a diretiva:
+- sem diretiva:
+> `<h2>testando diretiva de estilos / style</h2>`
+- com diretiva:
+> `<h2 [ngStyle]="{ 'font-size':'12px' }">testando diretiva de estilos / style</h2>`
+
+4º Esta é outra forma. Em algum arquivo.ts:
+```
+export class DirectivesComponent {
+
+  size = 40;
+  font = 'Arial';
+  color = 'red';
+}
+```
+E no arquivo.html:
+```
+<h3 [ngStyle]="{ 'font-size': size + 'px',
+                 'font-family': font, 
+                 'color': color }">
+                 testando diretiva de estilos / style
+</h3>
+```
+### **Diretiva de Classe**
+No arquivo.html:
+```
+<h4 [ngClass]="classes">
+    Testando diretiva de classe 1
+</h4>
+```
+No arquivo.ts:
+```
+export class DirectivesComponent {
+
+  classes = ['green-title', 'small-title'];
+}
+```
+O que acontece é que o h4 receberá a lista de classes acima. Como ideal, criamos as classes no arquivo.css para surgir efeito.
