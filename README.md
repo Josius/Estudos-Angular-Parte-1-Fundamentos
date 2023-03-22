@@ -221,3 +221,11 @@ export class DirectivesComponent {
 }
 ```
 O que acontece é que o h4 receberá a lista de classes acima. Como ideal, criamos as classes no arquivo.css para surgir efeito.
+
+## **Aula 09 - Renderização condicional**
+### **Definição** 
+Quando vamos imprimir algo no template baseado em alguma condição de um **if-else**.
+- é possível exibir determinado conteúdo por meio de uma **condicional**
+- usamos a diretiva **ngIf** para isso
+- os valores podem ser dinâmicos (**propriedades**), mas podemos realizar outros tipos de comparação
+- há a possibilidade de imprimir um cenário para validação de falso, com o **else**
