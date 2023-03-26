@@ -229,3 +229,28 @@ Quando vamos imprimir algo no template baseado em alguma condição de um **if-e
 - usamos a diretiva **ngIf** para isso
 - os valores podem ser dinâmicos (**propriedades**), mas podemos realizar outros tipos de comparação
 - há a possibilidade de imprimir um cenário para validação de falso, com o **else**
+
+1º Dentro de algum componente que usará a renderização condicional, no arquivo.ts, dentro do bloco da classe, criamos uma variável, por exemplo:
+```
+export class IfRenderComponent {
+  canShow: boolean = true;
+  name = "Teste";
+  nomeExemploIfElse = "notFound";
+}
+```
+2º No arquivo.html do componente, dentro da tag, alocamos a diretiva ngIf:
+```
+<div *ngIf="canShow">1º caso - Está sendo apresentado esse texto porque foi permitido</div>
+
+<h2 *ngIf="name === 'Teste'">2º caso - Esta renderização só será mostrada se como resultado do ngIf for true ao comparar um atributo da classe com o valor presente na tag, no caso, "Teste"</h2>
+
+<h3 *ngIf="nomeExemploIfElse === 'ifElse'; else nomeExemploIfElseNotFound">3º caso - Usando if else para retornar respostas diferentes</h3>
+<ng-template #nomeExemploIfElseNotFound>
+  <div>
+    <h2>nomeExemploIfElseNotFound não foi encontrado</h2>
+  </div>
+</ng-template>
+```
+- geralmente a validação é feita na própria lógica da classe do componente ao invés de usar no template, como no 2º caso, na tag h2.
+- na tag h3, que é o 3º caso, acontece algo interessante; podemos exibir algo como resultado de um if-else, onde será exibido algo se a 1ª condição for satisfeita, caso contrário, exibirá alguma outra coisa que está no else 
+- no 3º caso estamos o *__ng-template__*, o qual permite criar rapidamente um template somente para exibição. E dentro dele, podemos criar um template html para suprir a necessidade.

@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./if-render.component.css']
 })
 export class IfRenderComponent {
-
+  canShow: boolean = true;
+  name = "Teste";
+  nomeExemploIfElse = "notFound";
 }

@@ -1,3 +1,14 @@
 <div class="aula">
-    <h1>Aula Renderização Condicional</h1>
+    <h1>Aula 09 - Renderização Condicional</h1>
+
+    <div *ngIf="canShow">1º caso - Está sendo apresentado esse texto porque foi permitido</div>
+
+    <h2 *ngIf="name === 'Teste'">2º caso - Esta renderização só será mostrada se como resultado do ngIf for true ao comparar um atributo da classe com o valor presente na tag, no caso, "Teste"</h2>
+
+    <h3 *ngIf="nomeExemploIfElse === 'ifElse'; else nomeExemploIfElseNotFound">3º caso - Com resultado true da 1ª condição do if-else - Usando if else para retornar respostas diferentes</h3>
+    <ng-template #nomeExemploIfElseNotFound>
+      <div>
+        <h2>Com resultado false da 1ª condição do if-else - nomeExemploIfElseNotFound não foi encontrado</h2>
+      </div>
+    </ng-template>
 </div>
