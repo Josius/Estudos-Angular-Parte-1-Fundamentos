@@ -282,3 +282,52 @@ export class EventosComponent {
   }
 }
 ```
+
+## **Aula 11 - Emitindo Eventos**
+### **Definição** 
+- podemos comunicar eventos de um componente filho para o pai
+- para isso, usamos o **@Output**, o qual fará a saída do evento do componente filho
+- na tag de invocação do componente no template, escolhemos um método para executar quando o evento for emitido
+- Exemplo: **(emit)="onEmit()"**
+- componente emitter: recebe o evento sendo emitido do componente filho
+- componente change-number: componente filho que envia o evento para o componente pai
+- chamamos o componente filho dentro do componente pai para sincronização dos efeitos
+- o evento está no componente filho, mas a execução da lógica estará no componente pai
+- com **Output** enviamos algo
+- com **EventEmitter**, enviamos um evento
+
+### **Arquivos filho**
+```html
+<button (click)="hadleClick()">Alterar o número!</button>
+```
+```ts
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-change-number',
+  templateUrl: './change-number.component.html',
+  styleUrls: ['./change-number.component.css']
+})
+export class ChangeNumberComponent {
+
+  @Output() changeNumber: EventEmitter<any> = new EventEmitter();
+
+  hadleClick() {
+    this.changeNumber.emit();
+  }
+}
+```
+### **Arquivos pai**
+```html
+<h2>O número aleatório da vez é: {{ myNumber }}</h2>
+<app-change-number (changeNumber)="onChanceNumber()"></app-change-number>
+```
+```ts
+export class EmitterComponent {
+  myNumber: number = 0;
+
+  onChanceNumber() {
+    this.myNumber = Math.floor(Math.random() * 10);
+  }
+}
+```
