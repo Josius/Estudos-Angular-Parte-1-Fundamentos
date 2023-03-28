@@ -63,7 +63,7 @@
 - a impressão é feita através de `{{ dado }}`
 ### **Criando a interpolação** 
 1º - No arquivo *__`.component.ts`__* do componente, criar a variável/propriedade dentro do escopo da classe do componente. Também podemos usar dados mais complexos, como listas, arrays ou mesmo objetos.
-```
+```ts
 export class FirstComponentComponent {
   name: string = "Maleus";
   age: number = 30;
@@ -76,7 +76,7 @@ export class FirstComponentComponent {
 }
 ```
 2º - No arquivo *__`.component.html`__* do componente, adicionar dentro de uma tag html o nome da variável/propriedade criada no arquivo *__`.component.ts`__* do componente.
-```
+```html
 <h1>Nome: {{ name }}</h1>
 <h3>Idade: {{ age }}</h3>
 <h4>Profissão: {{ job }}</h4>
@@ -128,13 +128,13 @@ No caso do vídeo, o app.component.html é o pai, então inserimos o componente 
 > `<componente-criado></componente-criado>`
 
 no caso do exemplo:
-~~~
+~~~html
 <app-parent-data></app-parent-data>
 ~~~
 
 4º Agora criaremos os dados no componente pai, então em *__app.component.ts__* conterá os dados que serão compartilhados, logo, só precisamos criar uma propriedade, no caso criamos *userName*:
 
-~~~ng2
+~~~ts
 export class AppComponent {
 
   userName = 'Joloaquim';
@@ -150,7 +150,7 @@ export class AppComponent {
 > nome-da-propriedade-em-componente.component.ts -> 4º passo
 
 no caso do exemplo:
-~~~
+~~~html
 <app-parent-data [name]="userName"></app-parent-data>
 ~~~
 
@@ -160,12 +160,12 @@ no caso do exemplo:
 > nome-da-propriedade-compartilhada-no-componente-criado -> 2º passo
 
 no caso do exemplo, em *__parent-data.component.html__*:
-~~~
+~~~html
 <app-parent-data [name]="userName"></app-parent-data>
 ~~~
 
 **OBS:** para iniciar qualquer propriedade tipada, pode usar *__!__*, por exemplo:
-~~~
+~~~ts
 @Input() userData!: {
     email: string,
     role: string
@@ -190,7 +190,7 @@ o *_!_* após *userData* inicializa o objeto. Essa é uma síntaxe do TypeScript
 > `<h2 [ngStyle]="{ 'font-size':'12px' }">testando diretiva de estilos / style</h2>`
 
 4º Esta é outra forma. Em algum arquivo.ts:
-```
+```ts
 export class DirectivesComponent {
 
   size = 40;
@@ -199,7 +199,7 @@ export class DirectivesComponent {
 }
 ```
 E no arquivo.html:
-```
+```html
 <h3 [ngStyle]="{ 'font-size': size + 'px',
                  'font-family': font, 
                  'color': color }">
@@ -208,13 +208,13 @@ E no arquivo.html:
 ```
 ### **Diretiva de Classe**
 No arquivo.html:
-```
+```html
 <h4 [ngClass]="classes">
     Testando diretiva de classe 1
 </h4>
 ```
 No arquivo.ts:
-```
+```ts
 export class DirectivesComponent {
 
   classes = ['green-title', 'small-title'];
@@ -231,7 +231,7 @@ Quando vamos imprimir algo no template baseado em alguma condição de um **if-e
 - há a possibilidade de imprimir um cenário para validação de falso, com o **else**
 
 1º Dentro de algum componente que usará a renderização condicional, no arquivo.ts, dentro do bloco da classe, criamos uma variável, por exemplo:
-```
+```ts
 export class IfRenderComponent {
   canShow: boolean = true;
   name = "Teste";
@@ -239,7 +239,7 @@ export class IfRenderComponent {
 }
 ```
 2º No arquivo.html do componente, dentro da tag, alocamos a diretiva ngIf:
-```
+```html
 <div *ngIf="canShow">1º caso - Está sendo apresentado esse texto porque foi permitido</div>
 
 <h2 *ngIf="name === 'Teste'">2º caso - Esta renderização só será mostrada se como resultado do ngIf for true ao comparar um atributo da classe com o valor presente na tag, no caso, "Teste"</h2>
@@ -254,3 +254,31 @@ export class IfRenderComponent {
 - geralmente a validação é feita na própria lógica da classe do componente ao invés de usar no template, como no 2º caso, na tag h2.
 - na tag h3, que é o 3º caso, acontece algo interessante; podemos exibir algo como resultado de um if-else, onde será exibido algo se a 1ª condição for satisfeita, caso contrário, exibirá alguma outra coisa que está no else 
 - no 3º caso estamos o *__ng-template__*, o qual permite criar rapidamente um template somente para exibição. E dentro dele, podemos criar um template html para suprir a necessidade.
+
+## **Aula 10 - Eventos no Angular**
+### **Definição** 
+Algum tipo de interação com o servidor, por exemplo, um upload de algum arquivo, isso é um tipo de gatilho que faz com que o framework entenda que algo deve ser realizado com o servidor.
+- podemos ativar eventos nos componentes para disparar algum método
+- um evento clássico que usamos é o click
+- a síntaxe é: *__(nome-do-evento-que-disparará-alguma-função)="nome-da-funçã-que-será-disparada()"__*
+- os métodos ficam na classe
+- futuramente, utilizaremos esse recurso para acessar uma **API**
+- a maioria dos métodos que trabalham com Eventos retornam void
+- **toggle -** recurso usado para inverter valor de uma variável sem utilizar um if-else ou operador ternário. Ex:
+> `this.show = !this.show;`
+
+arquivo.html:
+```html
+    <p *ngIf="show">Você clicou em mim!</p>
+    <button (click)="showMessage()">Clique em mim!</button>
+
+```
+arquivo.ts:
+```ts
+export class EventosComponent {
+  show: boolean = false;
+  showMessage(): void {
+    this.show = !this.show; // toogle
+  }
+}
+```
