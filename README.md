@@ -357,3 +357,100 @@ export class ListRenderComponent {
   ];
 }
 ```
+
+## **Aula 13 - Importância das Interfaces**
+### **Definição**
+- toda entidade que vamos trabalhar precisa de uma interface, não é obrigatório, mas é um padrão em Angular
+- isso torna o código mais simples ao longo do programa
+- padronizando e facilitando a manutenção
+- vamos implementar uma interface a lista de animais
+- e fazer um evento que utilizará esse recurso
+- criamos a interface no nível do diretório *app*
+- podemos criar um diretório para armazenar as interfaces
+
+1º Criamos a interface:
+```ts
+export interface Animal {
+    name: string;
+    type: string;
+    age: number;
+    sex: string;
+}
+```
+
+2º Importamos a interface para o *arquivo.ts* que utilizará a interface, no caso, para *list-render.component.ts*.
+
+3º Ainda no mesmo *arquivo.ts*, tipamos o que iremos usar com a interface:
+
+Antes:
+```ts
+export class ListRenderComponent {
+  animals = [
+    {name:"Turca", type:"Dog"},
+    {name:"Tom", type:"Cat"},
+    {name:"Jerry", type:"Mouse"},
+    {name:"Cookie", type:"Dogo"}
+  ];
+}
+```
+
+Depois:
+```ts
+import { Animal } from 'src/app/interfaces/Animal';
+
+export class ListRenderComponent {
+  animals: Animal[] = [
+    {name:"Turca", type:"Dog", age: 4, sex:"F"},
+    {name:"Tom", type:"Cat", age: 3, sex:"M"},
+    {name:"Jerry", type:"Mouse", age: 2, sex:"M"},
+    {name:"Cookie", type:"Dogo", age: 5, sex:"M"}
+  ];
+}
+```
+**NOTA:** Obrigatoriamente precisamos usar os atributos da interface, ou seja, alinhamos o código a interface.
+
+4º Criando um evento quando clicar em algum animal:
+
+No arquivo *list-render.component.html*:
+```html
+<ul>
+  <li *ngFor="let animal of animals">
+    <p>Nome: {{ animal.name }}</p>
+    <p>Tipo: {{ animal.type }}</p>
+    <button (click)="showAge(animal)">Show age</button>
+  </li>
+</ul>
+```
+
+5º No arquivo *list-render.component.ts* criamos a propriedade *showAge*:
+```ts
+animalDetails = '';
+showAge(animal: Animal){
+    
+    this.animalDetails = `O pet ${animal.type} ${animal.name} tem ${animal.age} anos`;
+  }
+```
+
+6º Por fim, criamos uma exibição no arquivo *list-render.component.html*:
+```html
+<ul>
+  <li *ngFor="let animal of animals">
+    <p>Nome: {{ animal.name }}</p>
+    <p>Tipo: {{ animal.type }}</p>
+    <button (click)="showAge(animal)">Show age</button>
+  </li>
+</ul>
+<h3>{{ animalDetails }}</h3>
+```
+
+**PS:** Fiz uma alteração na propriedade showPet, onde ao invés de usar o artigo 'o' para todos os animais, usei uma lógica para retornar um artigo conforme o sexo do animal:
+```ts
+animalDetails = '';
+artigo = '';
+
+showAge(animal: Animal){
+  (animal.sex == "F") ? this.artigo = 'A' : this.artigo = 'O';
+  
+  this.animalDetails = `${this.artigo} ${animal.type} ${animal.name} tem ${animal.age} anos`;
+}
+```
