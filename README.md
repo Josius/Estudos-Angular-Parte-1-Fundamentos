@@ -331,3 +331,29 @@ export class EmitterComponent {
   }
 }
 ```
+
+## **Aula 12 - Renderização de Listas**
+### **Definição**
+- outro recurso importante é o **loop** em listas, o qual usamos para imprimir um array de objetos no template
+- para isso vamos precisar de uma propriedade com os itens da lista
+- e no template do componente vamos utilizar a diretiva **\*ngFor**
+- a sintaxe é? *\*ngFor="let item of items"*; no caso, *items* precisar ser o nome da propriedade, já *item* é um nome independente, sem relação nenhuma entretanto, por boas práticas, utilizamos o nome da propriedade no singular, como na sintaxe
+- desta maneira, podemos renderizar templates baseado em dados, ou seja, podemos pegar no BD uma lista de itens/objetos e renderizar no front-end
+```html
+<ul>
+    <li *ngFor="let animal of animals">
+      <p>Nome: {{ animal.name }}</p>
+      <p>Tipo: {{ animal.type }}</p>
+    </li>
+</ul>
+```
+```ts
+export class ListRenderComponent {
+  animals = [
+    {name:"Turca", type:"Dog"},
+    {name:"Tom", type:"Cat"},
+    {name:"Jerry", type:"Mouse"},
+    {name:"Cookie", type:"Dogo"}
+  ];
+}
+```
