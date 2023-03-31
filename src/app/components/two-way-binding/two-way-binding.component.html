@@ -1,0 +1,12 @@
+<div class="aula">
+    <h1>Aula 15 - Two Way Data Binding</h1>
+    <form action="">
+        <input type="text"[(ngModel)]="name"
+            name="nameInput"
+            placeholder="Digite seu nome">
+        <input type="submit" value="Enviar">
+    </form>
+    <div *ngIf="name != ''" >
+        <p>O nome é: {{ name }}</p>
+    </div>
+</div>

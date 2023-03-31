@@ -464,7 +464,7 @@ showAge(animal: Animal){
 
 No código exemplo, estamos utilizando um texto no *arquivo.html*, mas esse texto pode vir de alguma outra origem. 
 
-## **Exemplo de caixa alta com texto no *arquivo.html*:**
+### **Exemplo de caixa alta com texto no *arquivo.html*:**
 No arquivo *pipes.component.html:*
 ```html
 <h2>{{ "Algum texto" | uppercase }}</h2>
@@ -472,7 +472,7 @@ No arquivo *pipes.component.html:*
 Saída na página web:
 > `ALGUM TEXTO`
 
-## **Exemplo de caixa baixa e 1ªs letras maiúsculas, com texto oriundo de alguma propriedade:**
+### **Exemplo de caixa baixa e 1ªs letras maiúsculas, com texto oriundo de alguma propriedade:**
 No arquivo *pipes.component.ts*:
 ```ts
 export class PipesComponent {
@@ -490,7 +490,7 @@ Saída do lowercase na página web:
 Saída do titlecase na página web:
 > `Testando O Pipe Operator`
 
-## **Exemplo de data:**
+### **Exemplo de data:**
 No arquivo *pipes.component.ts*:
 ```ts
 export class PipesComponent {
@@ -506,3 +506,66 @@ Saída original na página web:
 
 Saída após uso do pipe operator na página web:
 > `Friday, March 31, 2023`
+
+## **Aula 15 - Two Way Data Binding**
+### **Definição**
+- interessante para trabalhar com formulários
+- conseguimos alterar props e o template com o preenchimento de inputs
+- é necessário importar o **FormsModule** no componente principal
+- também precisa declarar o **ngModel** no input, além de preencher o atributo name, todos com o mesmo valor
+
+Após criar o componente e atribuí-lo ao arquivo *app.component.html*, vamos seguir o seguintes passos:
+
+1º Importar o componente **FormsModule** no arquivo *app.module.ts* para termos acesso ao recurso de formulário:
+```ts
+import { FormsModule } from '@angular/forms';
+...
+imports: [
+    BrowserModule,
+    FormsModule
+  ],
+...
+```
+
+2º No *arquivo.html*:
+```html
+<div class="aula">
+  <h1>Aula 15 - Two Way Data Binding</h1>
+  <form action="">
+    <input type="text"[(ngModel)]="name">
+  </form>
+</div>
+```
+Em **[(ngModel)]="name"**, o "name" é o nome do input o qual é bindado automaticamente, então, precisamos ir no *arquivo.ts* e declarar a propriedade "name":
+
+3º No *arquivo.ts* podemos criar a propriedade do tipo string e vazia:
+```ts
+export class TwoWayBindingComponent {
+  name: string = '';
+}
+```
+
+4º De volta no *arquivo.html*, adicionamos mais alguns parâmetros e ele ficará dessa forma:
+```html
+<div class="aula">
+  <h1>Aula 15 - Two Way Data Binding</h1>
+  <form action="">
+    <input type="text"[(ngModel)]="name"
+        name="nameInput"
+        placeholder="Digite seu nome">
+    <input type="submit" value="Enviar">
+  </form>
+  <div *ngIf="name != ''" >
+    <p>O nome é: {{ name }}</p>
+  </div>
+</div>
+```
+Desta forma, o Angular está mapeando uma propriedade chamada *nomeDoInput* em seu módulo. 
+
+Outro ponto importante é que o mesmo dado sendo enviado pelo formulário também é acessível, como podemos ver em: 
+```html
+<div *ngIf="name != ''" >
+  <p>O nome é: {{ name }}</p>
+</div>
+```
+O qual será apresentado na página web conforme é preenchido o campo. Esta é a função do *__two way data binding__*.
