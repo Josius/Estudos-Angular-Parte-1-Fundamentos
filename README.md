@@ -454,3 +454,55 @@ showAge(animal: Animal){
   this.animalDetails = `${this.artigo} ${animal.type} ${animal.name} tem ${animal.age} anos`;
 }
 ```
+
+## **Aula 14 - Pipe Operators**
+### **Definição**
+- são recursos para trabalhar com strings nos templates
+- realizão várias funções, como deixar o texto em caixa alta
+- sintaxe: {{ dado | algumPipeOperator }}
+- desta forma, evitamos as regras de CSS ou manipulação de strings com JS
+
+No código exemplo, estamos utilizando um texto no *arquivo.html*, mas esse texto pode vir de alguma outra origem. 
+
+## **Exemplo de caixa alta com texto no *arquivo.html*:**
+No arquivo *pipes.component.html:*
+```html
+<h2>{{ "Algum texto" | uppercase }}</h2>
+```
+Saída na página web:
+> `ALGUM TEXTO`
+
+## **Exemplo de caixa baixa e 1ªs letras maiúsculas, com texto oriundo de alguma propriedade:**
+No arquivo *pipes.component.ts*:
+```ts
+export class PipesComponent {
+  someText = 'TESTANDO O PIPE OPERATOR';
+}
+```
+No arquivo *pipes.component.html:*
+```html
+<h3>{{ someText | lowercase}}</h3>
+<h4>{{ someText | titlecase}}</h4>
+```
+Saída do lowercase na página web:
+> `testando o pipe operator`
+
+Saída do titlecase na página web:
+> `Testando O Pipe Operator`
+
+## **Exemplo de data:**
+No arquivo *pipes.component.ts*:
+```ts
+export class PipesComponent {
+  today = new Date();
+}
+```
+No arquivo *pipes.component.html:*
+```html
+<h5>{{ today | date: "fullDate" }}</h5>
+```
+Saída original na página web:
+> `Fri Mar 31 2023 10:14:14 GMT-0300 (Horário Padrão de Brasília)`
+
+Saída após uso do pipe operator na página web:
+> `Friday, March 31, 2023`
