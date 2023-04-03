@@ -569,3 +569,91 @@ Outro ponto importante é que o mesmo dado sendo enviado pelo formulário també
 </div>
 ```
 O qual será apresentado na página web conforme é preenchido o campo. Esta é a função do *__two way data binding__*.
+
+## **Aula 16 - Services do Angular**
+### **Definição**
+- é uma parte fundamental do Angular
+- comumente, ficam as requisições para as **APIs** que utilizamos no projeto, ou seja, ele se comunicará com BDs
+  - com isso, delegamos a responsabilidade de comunicação para o service ao invés de usar o *__arquivo.ts__* do componente
+  - geralmente temos um service para cada componente que trabalha com requisições
+  - geralmente, o nome do service é bem parecido com o nome do componente ou sua entidade; por exemplo:
+    - User == UserService
+- precisamos criar o service com: **ng generate service \<nome>**
+- importar no componente e iniciar no constructor
+- após isso, é possível acessar os métodos dele
+
+### **O que vamos fazer**
+- usaremos o componente *__list-render__*
+- vamos fazer uma ação para excluir os animais, ou seja, haverá um delete para apagar o dado do BD
+
+1º Criamos o service:
+> `$ ng generate service services/list`
+ 
+2º Importamos o service no arquivo *__list.render.component.ts__*:
+> `import { ListService } from 'src/app/services/list.service';`
+
+3º Iniciamos no construtor do componente:
+> `constructor(private listService: ListService) { }`
+
+Com isso, o angular entenderá que estamos criando um novo serviço *(listService)* e de onde é oriundo *(ListService)*
+
+4º Criamos o método para deletar os dados:
+```ts
+removeAnimal(animal: Animal) {
+  console.log('Removendo o animal...');
+}
+```
+
+5º no *arquivo.html* criamos o botão de excluir:
+```html
+<button (click)="removeAnimal(animal)">Excluir</button>
+```
+
+6º criaremos o método de exclusão no service:
+
+Importando:
+> `import { Animal } from '../interfaces/Animal';`
+
+Criando o método de exclusão:
+```ts
+remove(animals: Animal[], animal: Animal) {
+  console.log("Ativando service");
+}
+```
+Em *__animals: Animal[]__* recebemos a lista de objetos.
+
+Em *__animal: Animal__* recebemos o objeto que iremos remover.
+
+7º criaremos a ligação com o service no *__arquivo.ts__* do componente chamando o método criado no 6º passo:
+```ts
+removeAnimal(animal: Animal) {
+  console.log('Removendo o animal...');
+  this.listService.remove(this.animals, animal)
+}
+```
+
+8º Por último:
+
+No *__arquivo.ts__* do service:
+```ts
+remove(animals: Animal[], animal: Animal) {
+  console.log("Ativando service");
+  return animals.filter((a) => animal.name !== a.name);
+}
+```
+Em:
+> `return animals.filter((a) => animal.name !== a.name);`
+
+usamos uma função lambda com filter para retornar da lista todos os objetos, com exceção do objeto que foi passado para exclusão.
+
+No *__arquivo.ts__* do componente:
+```ts
+removeAnimal(animal: Animal) {
+  console.log('Removendo o animal...');
+  this.animals = this.listService.remove(this.animals, animal)
+}
+```
+Em:
+> `this.animals = this.listService.remove(this.animals, animal)`
+
+a lista de objetos recebe o retorno do método *.remove()* do service com a nova lista sem o objeto excluído.
