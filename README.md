@@ -657,3 +657,102 @@ Em:
 > `this.animals = this.listService.remove(this.animals, animal)`
 
 a lista de objetos recebe o retorno do método *.remove()* do service com a nova lista sem o objeto excluído.
+
+## **Aula 17 - Angular Router**
+### **Definição**
+- criaremos um novo arquivo para declarar as rotas
+- nele importaremos os módulos **RouterModules** e **Routes**
+- após a definição, estas rotas precisam ser importadas em **app.module.ts**
+- por fim, no template principal criamos as rotas
+- e substituímos os componentes por: **\<router-outlet>**
+ 
+1º Criamos o arquivo de rotas. No exemplo, criamos no nível do diretório app:
+>`app-routing.module.ts`
+
+2º Importamos uma série de coisas:
+- ngModule
+- RouterModule
+- Routes
+
+3º Definimos as rotas em uma constante a qual recebe um array de objetos:
+- **path: ''** - este é o caminho da rota, no caso a *raiz* da rota
+- **component: FirstComponentComponent** - este é o componente que será exibido quando acessar a rota determinada em path, no caso *FirstComponentComponent*
+
+4º Configuramos o arquivo de rotas para exportação:
+- imports: [RouterModule.forRoot(routes)] - indicam que as rotas iniciam na raiz
+
+```ts
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { FirstComponentComponent } from "./components/first-component/first-component.component";
+import { ListRenderComponent } from "./components/list-render/list-render.component";
+
+const routes: Routes = [
+    {path: '', component: FirstComponentComponent},
+    {path: 'list', component: ListRenderComponent}
+]
+
+@NgModule({
+    declarations: [],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+```
+
+5º Importamos e declaramos as rotas em **app.module.ts**:
+Importando:
+>`import { AppRoutingModule } from './app-routing.module';`
+
+Declarando em imports:
+```ts
+...
+imports: [
+  BrowserModule,
+  FormsModule,
+  AppRoutingModule
+],
+...
+```
+
+6º Declaramos onde serão alteradas as rotas do template, para mudar a view. No caso, usaremos o arquivo **app.component.html**:
+
+Antes:
+```html
+<h1>Hello There.</h1>
+<h2>General Kenobi!</h2>
+<p>parágrafo do app.component.html</p>
+<div>
+    <a href="#">Cliqueste akiue</a>
+</div>
+<app-first-component></app-first-component>
+<app-parent-data [name]="userName" [userData]="userData"></app-parent-data>
+<app-directives></app-directives>
+<app-if-render></app-if-render>
+<app-eventos></app-eventos>
+<app-emitter></app-emitter>
+<app-list-render></app-list-render>
+<app-pipes></app-pipes>
+<app-two-way-binding></app-two-way-binding>
+```
+Depois:
+```html
+<header>header</header>
+<h1>Hello There.</h1>
+<h2>General Kenobi!</h2>
+<p>Início do meio do site</p>
+<router-outlet></router-outlet>
+<p>Fim do meio do site</p>
+<footer>footer</footer>
+```
+
+Inicialmente, o que será apresentado é o componente *__FirstComponentComponent__*, pois ele foi definido como a página inicial do site, e se no url colocarmos **/list**, seremos redirecionados para o componente *__ListRenderComponent__*.
+
+Podemos usar um navbar para direcionamento das rotas:
+```html
+<nav>
+  <a routerLink="/">Home</a>
+  <a routerLink="/list">Lista</a>
+</nav>
+```
+Note que ao invés de **\<a href="">** usamos **\<a routerLink="/">** que é um parâmetro do angular.
