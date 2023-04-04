@@ -861,3 +861,82 @@ getAnimals(): void{
   this.listService.getAll().subscribe((animals) => (this.animals = animals));
 }
 ```
+
+## **Aula 19 - Dynamic Routes**
+### **Definição**
+- para recuperar um dado do BD vamos precisar criar uma rota dinâmica no router
+- baseado no id do item, teremos a seleção de dado no BD, geralmente o id vem pela URL
+- p/ recuperar parâmetros da URL utilizaremos o *módulo* **ActivedRoute**
+- a lógica p/ requisição HTTP ficará no **service**
+
+### **Primeira parte**
+1º Criaremos um novo componente:
+> `ng generate component components/item-detail `
+
+E a partir desse componente recém criado elaboraremos uma rota.
+
+2º Criamos uma nova rota no arquivo *__app-routing.module.ts__*:
+> `{path: 'list-render/:id', component: ItemDetailComponent},`
+
+Note que agora temos */:id* após o *list-render*, isso é uma rota dinâmica, pois o id poderá mudar sempre que a rota for acessada. Perceba também que agora usaremos o componente recém criado *ItemDetailComponent* ao invés do *ListRenderComponent*, o qual utilizamos em aulas anteriores.
+
+3º Em *__list-render.component.html__* faremos uma alteração no campo que renderiza os dados recebidos do BD:
+
+>`Nome: <a routerLink="/list-render/{{ animal.id }}">{{ animal.name }}</a> -   Tipo: {{ animal.type }}`
+
+**NOTA:** Isso gerará um erro pois na interface não ha um campo *id*. Para corrigir isso é só acrescentar um atributo *id*.
+
+### **Segunda parte**
+Agora vamos alterar o componente *ItemDetailComponent*:
+
+1º Em *__item-detail.component.ts__* importamos:
+- a interface Animal
+- ActivatedRoute, para as rotas
+- ListService, para interação com o service
+```ts
+import { Animal } from 'src/app/interfaces/Animal';
+import { ActivatedRoute } from '@angular/router';
+import { ListService } from 'src/app/services/list.service';
+```
+
+2º Ainda em *__item-detail.component.ts__*, dentro do escopo da declaração da classe:
+- criamos um método *__.getAnimal()__* para recuperar os dados do BD
+- criamos um atributo animal com **?** para indicar que o dado pode ser ou não recuperado do BD
+- inicializamos o que precisamos no constructor
+  - ListService
+  - ActivatedRoute
+- chamamos o método *__.getAnimal()__*
+```ts
+export class ItemDetailComponent {
+
+  animal?: Animal;
+
+  constructor(private listService: ListService, private route: ActivatedRoute) {
+    this.getAnimal();
+  }
+
+  getAnimal() {
+    const id = Number(this.route.snapshot.paramMap.get("id"));
+    this.listService.getItem(id).subscribe((animal) => (this.animal = animal));
+  }
+}
+```
+
+3º Em *__list.service.ts__* criaremos o método *__.getItem()__*, o qual é chamado dentro do método *__.getAnimal()__*, do componente *__item-detail.component.ts__*:
+```ts
+getItem(id: number): Observable<Animal> {
+  return this.http.get<Animal>(`${this.apiUrl}/id`);
+}
+```
+
+4º Agora trabalharemos com *__item-detail.component.html__* entretanto, como colocamos uma **?** no atributo animal do arquivo *__item-detail.component.ts__*, isso quer dizer que pode ou não vir esse dado para ser renderizado logo, precisamos usar o **\*ngIf** para que não dê erro ao tentar renderizar o dado:
+```html
+<div *ngIf="animal" class="aula">
+	<h1>Aula 19 - Dynamic Routes</h1>
+	<p>ID: {{ animal.id }}</p>
+	<h2>Nome: {{ animal.name }}</h2>
+	<h2>Tipo: {{ animal.type }}</h2>
+	<h2>Idade: {{ animal.age }}</h2>
+	<h2>Sexo: {{ animal.sex }}</h2>
+</div>
+```

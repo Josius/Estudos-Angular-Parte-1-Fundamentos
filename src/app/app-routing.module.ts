@@ -9,6 +9,7 @@ import { ListRenderComponent } from "./components/list-render/list-render.compon
 import { ParentDataComponent } from "./components/parent-data/parent-data.component";
 import { PipesComponent } from "./components/pipes/pipes.component";
 import { TwoWayBindingComponent } from "./components/two-way-binding/two-way-binding.component";
+import { ItemDetailComponent } from "./components/item-detail/item-detail.component";
 
 const routes: Routes = [
     {path: '', component: FirstComponentComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
     {path: 'eventos', component: EventosComponent},
     {path: 'emitter', component: EmitterComponent},
     {path: 'list-render', component: ListRenderComponent},
+    {path: 'list-render/:id', component: ItemDetailComponent},
     {path: 'pipes', component: PipesComponent},
     {path: 'two-way-binding', component: TwoWayBindingComponent}
 ]
