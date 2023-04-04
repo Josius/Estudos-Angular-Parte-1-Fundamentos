@@ -111,11 +111,11 @@ ng generate component components/parent-data
 > `@Input() nome-da-propriedade: tipo-da-propriedade = inicializador-da-propriedade;`
 
 no caso do exemplo, em *__parent-data.component.ts__*:
-~~~
+~~~ts
 import { Component, Input } from '@angular/core';
 ~~~
 e no mesmpo arquivo .ts:
-~~~
+~~~ts
 export class ParentDataComponent {
 
   @Input() name: string = '';
@@ -756,3 +756,108 @@ Podemos usar um navbar para direcionamento das rotas:
 </nav>
 ```
 Note que ao invés de **\<a href="">** usamos **\<a routerLink="/">** que é um parâmetro do angular.
+
+## **Aula 18 - Requisições HTTP**
+### **Definição**
+- realizaremos requisições HTTP nos services
+- importaremos 2 pacotes: **HttpCliente** e **HttpHeaders**
+- usaremos um API local p/simular as requests com **json-server**
+- é necessário inicializar o módulo **HttpClienteModule** em *__app.module.ts__*
+ 
+### **Primeira parte**
+1. Instalaremos o pacote **json-server** com o comando:
+> ``npm i json-server``
+
+2. Para mockar os dados, criaremos um arquivo chamado *__db.json__* no nível da raiz do projeto com alguns dados.
+
+3. Alteraremos *__package.json__* para rodar os dados mockados. Em *"scripts"*, após a última linha *"test": "ng test"*, colocamos:
+> `"server": "json-server --watch db.json"`
+
+4. Executaremos o **json-server** com o comando:
+> ``npm run server``
+
+Ou seja, teremos o servidor Node rodando na porta 4200 e também o servidor json-server para simular uma API na porta 3000. Ambos funcionando ao mesmo tempo.
+
+Concluida essas configurações, vamos para a 2ª parte.
+
+### **Segunda parte**
+Importaremos *__HttpClientModule__* em *__app.module.ts__*. Precisamos declarar primeiramente *from '@angular/common/http'* e depois, *import { HttpClientModule }*, pois como começa com *@*, o angular não reconhece o import automático:
+```ts
+import { HttpClientModule } from '@angular/common/http'
+```
+
+Declaramos o *__HttpClientModule__* nos imports do arquivo *__app.module.ts__*:
+```ts
+imports: [
+  BrowserModule,
+  FormsModule,
+  AppRoutingModule,
+  HttpClientModule
+],
+```
+
+Feitas essas últimas configurações, iremos trabalhar com os componentes, no caso, o arquivo *__list-render.component.ts__*.
+
+### **Terceira parte**
+Utilizaremos uma lista vazia:
+```ts
+export class ListRenderComponent {
+  animals: Animal[] = [];
+```
+  
+Puxaremos os dados da API pelo service:
+```ts
+constructor(private listService: ListService) {
+  this.getAnimals();
+}
+```
+  
+3. Criaremos um método *__.getAnimals()__* que acessa o método service, chamando o método *__.getAll()__* que retornará a lista de objetos mockados:
+
+```ts
+getAnimals(): void{
+  this.listService.getAll();
+}
+```
+
+Nesta 4ª parte, alteraremos o arquivo *__list.service.ts__*.
+
+### **Quarta parte**
+Importamos **HttpCliente** e **HttpHeaders** no arquivo *__list.service.ts__*:
+```ts
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+```
+
+Importamos **Observable** no arquivo *__list.service.ts__* para que as requisições ocorram da melhor maneira possível:
+```ts
+import { Observable } from 'rxjs';
+```
+   
+Declararemos a **url da API\***:
+```ts
+private apiUrl = 'http://localhost:3000/animals'
+```
+
+Como não temos acesso direto da importação, precisamos passar pelo constructor, semelhante ao service, onde iremos declarar o **HttpCliente** para permitir usar os métodos GET, PUT, POST, DELETE, etc., para usar no método *__.getAll()__*:
+```ts
+constructor(private http: HttpClient) { }
+```
+
+Criamos o método *__.getAll()__* no arquivo *__list.service.ts__*:
+```ts
+getAll(): Observable<Animal[]> {
+  return this.http.get<Animal[]>(this.apiUrl);
+}
+```
+
+**url da API\*:** Geralmente recebemos essa **url da API** de um arquivo de configuração, mas como estamos mockando os dados, ela é configurada no aqruivo *__list.service.ts__*.
+
+Nesta 5ª parte, voltamos para o arquivo *__list-render.component.ts__*.
+
+### **Quinta parte**
+Alteraremos o método *__.getAnimals()__*, pois não estamos preenchendo o array, somente chamando a lista dos dados mockados. Por estarmos usando **Observable**, precisaremos usar *__.subscribe()__*, o qual informa que o evento será concretizado:
+```ts
+getAnimals(): void{
+  this.listService.getAll().subscribe((animals) => (this.animals = animals));
+}
+```
