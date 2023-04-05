@@ -1,5 +1,24 @@
 # **Estudos Angular**
+
 ## **Fonte de Estudos: [Hora de Codar](https://www.youtube.com/playlist?list=PLnDvRpP8Bnex2GQEN0768_AxZg_RaIGmw)**
+
+
+## **Ferramentas Utilizadas:**
+> - Angular CLI: 15.2.1
+> - Node: 18.14.2
+> - Package Manager: npm 9.6.0
+> - OS: win32 x64
+> - [Package Json-Server](#json-server)
+
+## **Instalação**
+Partindo do princípio que as ferramentas acima estão instaladas: 
+- baixe o repositório
+- no diretório raiz do repositório abre um terminal/bash
+- execute o comando **npm install**
+- execute o comando **ng serve**
+- no diretório raiz do repositório abra um novo terminal/bash
+- execute o comando **npm run server**
+- acesse *http://localhost:4200/* para visualizar as páginas de estudos funcionando
 
 ## **Aula 03 - Estrutura do angular**
 ### **Após um ng new:** 
@@ -757,7 +776,7 @@ Podemos usar um navbar para direcionamento das rotas:
 ```
 Note que ao invés de **\<a href="">** usamos **\<a routerLink="/">** que é um parâmetro do angular.
 
-## **Aula 18 - Requisições HTTP**
+## **Aula 18 - Requisições HTTP** <a id="json-server"></a>
 ### **Definição**
 - realizaremos requisições HTTP nos services
 - importaremos 2 pacotes: **HttpCliente** e **HttpHeaders**
