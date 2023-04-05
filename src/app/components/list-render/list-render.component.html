@@ -4,14 +4,15 @@
     <h1>Aula 16 - Services do Angular</h1>
     <h1>Aula 18 - Requisições HTTP</h1>
     <h1>Aula 19 - Dynamic Routes</h1>
+    <h1>Aula 20 - Excluíndo Dados pelo Service</h1>
     <h2>Animais:</h2>
     <ul>
         <li *ngFor="let animal of animals">
-            <!-- linha abaixo, código da aula 19 -->
-            Nome: <a routerLink="/list-render/{{ animal.id }}">{{ animal.name }}</a> -   Tipo: {{ animal.type }}
-
             <!-- linha abaixo, código das aulas 12, 13, 16 e 18 -->
             <!-- Nome: {{ animal.name }} -   Tipo: {{ animal.type }} -->
+
+            <!-- linha abaixo, código da aula 19, 20 -->
+            Nome: <a routerLink="/list-render/{{ animal.id }}">{{ animal.name }}</a> - Tipo: {{ animal.type }}
             <button (click)="showAge(animal)">Show age</button>
             <button (click)="removeAnimal(animal)">Excluir</button>
         </li>

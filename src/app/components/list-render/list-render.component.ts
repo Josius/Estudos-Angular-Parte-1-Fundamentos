@@ -9,9 +9,6 @@ import { ListService } from 'src/app/services/list.service';
   styleUrls: ['./list-render.component.css']
 })
 
-// Abaixo, código usado na aula 18
-export class ListRenderComponent {
-  animals: Animal[] = [];
 
 // Abaixo, código usado nas aulas 12, 13 e 16
 // export class ListRenderComponent {
@@ -22,11 +19,14 @@ export class ListRenderComponent {
 //     { name: "Cookie", type: "Dogo", age: 5, sex: "M" }
 //   ];
 
+// Abaixo, código usado na aula 18, 19, 20
+export class ListRenderComponent {
+  animals: Animal[] = [];
   animalDetails = '';
   artigo = '';
 
   constructor(private listService: ListService) {
-    
+
     this.getAnimals();
   }
 
@@ -37,11 +37,14 @@ export class ListRenderComponent {
   }
 
   removeAnimal(animal: Animal) {
-    console.log('Removendo o animal...');
-    this.animals = this.listService.remove(this.animals, animal)
+    
+    this.animals = this.animals.filter((a) => animal.name !== a.name);
+    this.listService.remove(animal.id).subscribe();
+    // abaixo, código usado nas aulas anteriores a aula 20
+    // this.animals = this.listService.remove(this.animals, animal)
   }
 
-  getAnimals(): void{
+  getAnimals(): void {
     this.listService.getAll().subscribe((animals) => (this.animals = animals));
   }
 }

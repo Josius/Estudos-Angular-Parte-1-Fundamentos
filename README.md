@@ -940,3 +940,47 @@ getItem(id: number): Observable<Animal> {
 	<h2>Sexo: {{ animal.sex }}</h2>
 </div>
 ```
+
+## **Aula 20 - Excluíndo Dados pelo Service**
+### **Definição**
+- refatoraremos a ação de remover registro com a execução HTTP
+- criaremos outro método service
+- ajustaremos a maneira que o método da classe do componente é executado
+- com essas mudanças estaremos interagindo com a API
+
+1º Entraremos em *__list.service.ts__* e no método *remove* iremos recortar a lógica do *return* e alocar no arquivo *__list-render.component.ts__*, no método *removeAnimal*, este método ficará da seguinte forma:
+```ts
+removeAnimal(animal: Animal) {
+  this.animals = this.animals.filter((a) => animal.name !== a.name);
+  // abaixo, código usado nas aulas anteriores a aula 20
+  // this.animals = this.listService.remove(this.animals, animal)
+}
+```
+Segundo o vídeo, esta lógica tem que ficar no arquivo *__list-render.component.ts__*, no método *removeAnimal*, pois irá excluir no front-end. Para exclusão no back-end, iremos alterar no arquivo *__list.service.ts__* o método *remove*.
+
+2º No método *remove* do arquivo *__list.service.ts__*, originalmente nós recebíamos a lista completa de animais para a remoção. Após a refatoração, precisaremos somente receber o *id* do animal. Então vamos alterar novamente o método *removeAnimal* do arquivo *__list-render.component.ts__*:
+
+```ts
+removeAnimal(animal: Animal) {
+  this.animals = this.animals.filter((a) => animal.name !== a.name);
+  this.listService.remove(animal.id).subscribe();
+}
+```
+Esta linha exclui do front-end:
+> `this.animals = this.animals.filter((a) => animal.name !== a.name);`
+
+Esta linha envia requisição para o service para exclusão no back-end:
+> `this.listService.remove(animal.id).subscribe();`
+
+**NOTA 1:** no service, tanto o método *getAll* quanto o *getItem* utilizamos o *Observable*, porém no método *remove* não precisaremos dele, pois não estamos atribuindo nada ao front-end.
+**NOTA 2:** já no arquivo *__list-render.component.ts__*, no método *removeAnimal* precisamos usar o *subscribe*, porque o ocorrerá um evento com o BD, pois este será alterado. É uma maneira do Angular dizer que o evento foi executado.
+
+E no método *remove* do arquivo *__list.service.ts__*:
+
+```ts
+remove(id: number) {
+  return this.http.delete<Animal>(`${this.apiUrl}/${id}`);
+}
+```
+
+Concluído esses passos, teremos a exclusão do objeto, tanto no front-end *(sem precisar recarregar a página, buscando dados no back-end)* quanto no back-end.
