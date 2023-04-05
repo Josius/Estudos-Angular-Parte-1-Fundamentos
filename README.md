@@ -2,7 +2,6 @@
 
 ## **Fonte de Estudos: [Hora de Codar](https://www.youtube.com/playlist?list=PLnDvRpP8Bnex2GQEN0768_AxZg_RaIGmw)**
 
-
 ## **Ferramentas Utilizadas:**
 > - Angular CLI: 15.2.1
 > - Node: 18.14.2
@@ -20,6 +19,7 @@ Partindo do princípio que as ferramentas acima estão instaladas:
 - execute o comando **npm run server**
 - acesse *http://localhost:4200/* para visualizar as páginas de estudos funcionando
 
+# **Notas de Aulas**
 ## **Aula 03 - Estrutura do angular**
 ### **Após um ng new:** 
 - nome modules -  dependências do projeto
